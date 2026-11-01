@@ -1,66 +1,71 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# StokKu
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+**Sistem Informasi Inventori Toko Kelontong**
+Tugas RPL Studio, Tema 7: Sistem Manajemen Toko dan Inventori
 
-## About Laravel
+StokKu adalah aplikasi web untuk mencatat dan memantau stok barang di toko kelontong. Aplikasi ini menggantikan pencatatan manual dengan data yang tersimpan rapi di database, sehingga stok yang tersedia, barang yang hampir habis, dan riwayat keluar masuk barang bisa dilihat kapan saja.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Pengguna Sistem
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+| Peran | Hak akses |
+|-------|-----------|
+| **Admin** | Mengelola data master (barang, kategori, supplier, user) dan melihat riwayat stok |
+| **Staf gudang** | Mencatat stok masuk dan stok keluar, melihat dashboard dan riwayat stok |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Semua pengguna wajib login terlebih dahulu. Setelah login, sistem mengarahkan ke menu sesuai peran.
 
-## Learning Laravel
+## Fitur Utama
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+- Login dan logout dengan pembagian peran (admin / staf gudang)
+- Kelola data barang (kode, nama, kategori, harga beli, harga jual, stok, stok minimum, satuan)
+- Kelola data kategori
+- Kelola data supplier
+- Kelola user (khusus admin)
+- Catat stok masuk (stok barang otomatis bertambah)
+- Catat stok keluar (stok barang otomatis berkurang, transaksi ditolak jika stok tidak cukup)
+- Riwayat transaksi stok masuk dan keluar
+- Dashboard berisi total barang, stok menipis, serta jumlah barang masuk dan keluar hari ini
+- Grafik stok masuk dan keluar 7 hari terakhir
+- Grafik kondisi stok (aman, menipis, habis)
+- Daftar barang hampir habis lengkap dengan indikator sisa stok
+- Mode gelap dan terang
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+## Alur Kerja
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Admin**
+1. Login, lalu mengisi data kategori dan supplier
+2. Menambah data barang beserta stok awal dan stok minimum
+3. Membuat akun staf gudang di menu Kelola User
+4. Memantau semua transaksi lewat menu Riwayat
 
-## Laravel Sponsors
+**Staf gudang**
+- *Stok masuk:* pilih barang dan supplier, isi jumlah, tanggal, dan keterangan, lalu simpan. Stok barang bertambah otomatis.
+- *Stok keluar:* pilih barang dan isi jumlah. Jika stok cukup, transaksi disimpan dan stok barang berkurang. Jika stok kurang, muncul pesan peringatan.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
 
-### Premium Partners
+## Cara Install
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+1. Clone repo
+   ```bash
+   git clone https://github.com/ulfamailani/StokKu.git
+   cd StokKu
+   ```
+2. Install dependency
+   ```bash
+   composer install
+   ```
+3. Copy file env, lalu atur koneksi database di `.env`
+   ```bash
+   copy .env.example .env
+   php artisan key:generate
+   ```
+4. Buat database kosong di MySQL (misal `stokku`), lalu jalankan migration
+   ```bash
+   php artisan migrate
+   ```
+5. Jalankan server
+   ```bash
+   php artisan serve
+   ```
+6. Buka `http://127.0.0.1:8000` di browser
 
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
